@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <drawable>
+        <rotate
+             android:drawable="@drawable/refresh_animation"
+             android:pivotX="50%"
+             android:pivotY="50%"
+             android:fromDegrees="0"
+             android:toDegrees="1080" />
+    </drawable>
+    <drawable>
+        <rotate
+             android:drawable="@drawable/refresh_animation"
+             android:pivotX="50%"
+             android:pivotY="50%"
+             android:fromDegrees="0"
+             android:toDegrees="720" />
+    </drawable>
+
+
+</animated-rotate>

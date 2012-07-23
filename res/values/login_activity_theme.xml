@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style
+        name="login"
+        parent="Theme.Sherlock" >
+       <item name="android:actionBarStyle">
+			@style/Widget.login.ActionBar
+        </item> 
+
+    </style>
+
+<style name="Widget.login.ActionBar" parent="Widget.Sherlock.ActionBar">
+    <item name="android:background">#2C4056</item>
+    <item name="background">#2C4056</item>
+</style>
+
+
+</resources>

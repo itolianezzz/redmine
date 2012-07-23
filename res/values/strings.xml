@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="projectCreatedOnLabel">Created:</string>
+    <string name="projectUpdatedOnLabel">Updated:</string>
+    <string name="btn_issues_label">Issues</string>
+    <string name="btn_new_issue_label">New issue</string>
+    <string name="btn_users_label">Users</string>
+    <string name="btn_new_user_label">New user</string>
+    <string name="action_bar_refresh">Refresh</string>
+    <string name="action_bar_new_project">New project</string>
+    <string name="action_bar_new_issue">New issue</string>
+    <string name="app_name">Redmine</string>
+    <string name="showHosts">Servers</string>
+    <string name="action_bar_new_host">New host</string>
+</resources>

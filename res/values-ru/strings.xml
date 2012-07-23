@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="projectCreatedOnLabel">Создан:</string>
+    <string name="projectUpdatedOnLabel">Обновлен:</string>
+    <string name="btn_issues_label">Задачи</string>
+    <string name="btn_new_issue_label">Новая задача</string>
+    <string name="btn_users_label">Пользователи</string>
+    <string name="btn_new_user_label">Новый пользователь</string>
+    <string name="action_bar_refresh">Обновить</string>
+    <string name="action_bar_new_project">Новый проект</string>
+    <string name="action_bar_new_issue">Новая задача</string>
+    <string name="showHosts">Серверы</string>
+    <string name="action_bar_new_host">Новый сервер</string>
+    <string name="please_login_text">Залогинтесь плз</string>
+    <string name="login_edit_label">логин</string>
+    <string name="password_edit_label">пароль</string>
+    <string name="host_edit_label">адрес хоста</string>
+    <string name="login_button_text">вход</string>
+</resources>

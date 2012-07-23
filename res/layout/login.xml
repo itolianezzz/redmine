@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#507AAA"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/please_logon_label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2pt"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/please_login_text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/login_edit_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2pt"
+            android:text="@string/login_edit_label" />
+
+        <EditText
+            android:id="@+id/login_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2pt"
+            android:inputType="textPersonName"
+            android:maxLength="28" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/password_edit_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2pt"
+            android:text="@string/password_edit_label" />
+
+        <EditText
+            android:id="@+id/password_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2pt"
+            android:inputType="textPassword"
+            android:maxLength="50" />
+
+        <TextView
+            android:id="@+id/host_edit_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2pt"
+            android:text="@string/host_edit_label" />
+
+        <AutoCompleteTextView
+            android:id="@+id/host_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2pt"
+            android:text="AutoCompleteTextView" />
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="2pt"
+            android:gravity="center"
+            android:text="@string/login_button_text" />
+    </LinearLayout>
+
+</ScrollView>
