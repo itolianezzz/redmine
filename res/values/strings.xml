@@ -12,4 +12,7 @@
     <string name="app_name">Redmine</string>
     <string name="showHosts">Servers</string>
     <string name="action_bar_new_host">New host</string>
+    <string name="host_edit_hint">http://www.redmine.org</string>
+    <string name="login_edit_hint">user</string>
+    <string name="password_edit_hint">password</string>
 </resources>

@@ -54,7 +54,6 @@
                         android:inputType="textWebEditText"
                         android:padding="1dp"
                         android:singleLine="true"
-                        android:text="http://office.terrikon.spb.ru/redmine"
                         android:textAppearance="?android:attr/textAppearanceSmallInverse"
                         android:textColor="@color/wet_asphalt" />
 
@@ -86,7 +85,7 @@
                         android:layout_weight="0.6"
                         android:hint="@string/login_edit_hint"
                         android:inputType="textPersonName"
-                        android:text="admin"
+                        android:text=""
                         android:textColor="@color/wet_asphalt"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -117,7 +116,7 @@
                         android:inputType="textPassword"
                         android:maxWidth="140dp"
                         android:minWidth="140dp"
-                        android:text="kakashka"
+                        android:text=""
                         android:textColor="@color/wet_asphalt"
                         android:textSize="16sp" />
                 </LinearLayout>

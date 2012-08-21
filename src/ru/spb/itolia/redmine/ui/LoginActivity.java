@@ -3,14 +3,11 @@ package ru.spb.itolia.redmine.ui;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.actionbarsherlock.app.SherlockActivity;
-
 import ru.spb.itolia.redmine.R;
 import ru.spb.itolia.redmine.api.RedmineApiManager;
 import ru.spb.itolia.redmine.api.beans.RedmineHost;
 import ru.spb.itolia.redmine.api.beans.User;
 import ru.spb.itolia.redmine.db.RedmineDBAdapter;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +17,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.actionbarsherlock.app.SherlockActivity;
 
 public class LoginActivity extends SherlockActivity implements OnClickListener {
 	private final String PREFS_NAME = "prefs";
@@ -46,6 +45,7 @@ public class LoginActivity extends SherlockActivity implements OnClickListener {
 			hostEdit = (EditText) findViewById(R.id.host_edit);
 			Button loginButton = (Button) findViewById(R.id.login_button);
 			loginButton.setOnClickListener(this);
+
 		} else {
 			Intent intent = new Intent(this, ProjectsActivity.class);
 			intent.putExtra("host_id", host_id);
@@ -114,5 +114,6 @@ public class LoginActivity extends SherlockActivity implements OnClickListener {
 		}
 		
 	}
+
 
 }

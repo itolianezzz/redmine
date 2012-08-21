@@ -8,10 +8,13 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.http.HttpException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,24 +55,25 @@ public class RedmineApiManager {
 
 
 	public String getHostLabel() throws HttpException, IOException {
-		HttpClient client = new HttpClient();
-		GetMethod method = new GetMethod(REDMINE_HOST);
-		client.executeMethod(method);
-		Source response = new Source(method.getResponseBodyAsStream());
-		String label = response.getFirstElement(HTMLElementName.TITLE).getContent().toString();
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpGet method = new HttpGet(REDMINE_HOST);
+		HttpResponse response = client.execute(method);
+		
+		Source parse = new Source(response.getEntity().getContent());
+		String label = parse.getFirstElement(HTMLElementName.TITLE).getContent().toString();
 		return label;
 	}
 	
 	
 	public String getApiKey() throws Exception { //TODO: Fix exceptions
 		String token = null;
-		HttpClient client = new HttpClient();
-		GetMethod first = new GetMethod(REDMINE_HOST + "/my/account");
-		first.setFollowRedirects(true);
-		client.executeMethod(first);
-		Source response = new Source(first.getResponseBodyAsStream());
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpGet first = new HttpGet(REDMINE_HOST + "/my/account");
+		//first.setFollowRedirects(true);
+		HttpResponse response = client.execute(first);
+		Source parse = new Source(response.getEntity().getContent());
 		//System.out.println("response:" + response.toString() );
-		List<Element> elements = response.getAllElements("meta");
+		List<Element> elements = parse.getAllElements("meta");
 		for (Element el : elements) {
 			if (el.getAttributeValue("name") != null) {
 				if (el.getAttributeValue("name").equals("csrf-token")) {
@@ -77,35 +81,37 @@ public class RedmineApiManager {
 				}
 			}
 		}
-		PostMethod second = new PostMethod(REDMINE_HOST + "/login");
-		second.addRequestHeader("Content-Type",
+		HttpPost second = new HttpPost(REDMINE_HOST + "/login");
+		second.addHeader("Content-Type",
 				"application/x-www-form-urlencoded");
-		second.addParameter("authenticity_token", token);
-		second.addParameter("back_url", REDMINE_HOST + "/my/account");
-		second.addParameter("username", login);
-		second.addParameter("password", password);
-		client.executeMethod(second);
-		response = new Source(second.getResponseBodyAsStream());
+		HttpParams params = new BasicHttpParams();
+		params.setParameter("authenticity_token", token);
+		params.setParameter("back_url", REDMINE_HOST + "/my/account");
+		params.setParameter("username", login);
+		params.setParameter("password", password);
+		client.setParams(params);
+		response = client.execute(second);
+		parse = new Source(response.getEntity().getContent());
 
-		GetMethod third = new GetMethod(REDMINE_HOST + "/my/account");
-		third.addRequestHeader("Referer", REDMINE_HOST + "/login?back_url="
+		HttpGet third = new HttpGet(REDMINE_HOST + "/my/account");
+		third.addHeader("Referer", REDMINE_HOST + "/login?back_url="
 				+ REDMINE_HOST + "/my/account");
-		client.executeMethod(third);
-		response = new Source(third.getResponseBodyAsStream());
-		api_key = response.getElementById("api-access-key").getContent()
+		response = client.execute(third);
+		parse = new Source(response.getEntity().getContent());
+		api_key = parse.getElementById("api-access-key").getContent()
 				.toString();
 
 		return api_key;
 	}
 
 	public String executeMethod(String method, String api_key, String params) throws HttpException, IOException { //TODO: Fix exceptions
-		HttpClient client = new HttpClient();
-		GetMethod get = new GetMethod(REDMINE_HOST + "/" + method + ".json?" + params);
-		get.setRequestHeader("X-Redmine-API-Key", api_key);
-		client.executeMethod(get);
-		String response = get.getResponseBodyAsString();
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpGet get = new HttpGet(REDMINE_HOST + "/" + method + ".json?" + params);
+		get.setHeader("X-Redmine-API-Key", api_key);
+		HttpResponse response = client.execute(get);
+		String parse = response.getEntity().getContent().toString();
 		
-		return response;
+		return parse;
 	}
 
 	public List<Project> getProjects(String api_key) throws HttpException, JSONException, IOException {
