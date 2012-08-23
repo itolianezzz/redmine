@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFF</color>
+    <color name="wheat">#FFEBC1</color>
+    <color name="saffron">#FDBF3B</color>
+    <color name="wet_asphalt">#484848</color>
+    <color name="blue_steel">#507AAA</color>
     
 </resources>

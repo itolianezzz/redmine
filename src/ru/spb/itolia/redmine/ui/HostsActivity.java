@@ -1,18 +1,8 @@
 package ru.spb.itolia.redmine.ui;
 
-import java.util.List;
-
-import ru.spb.itolia.redmine.R;
-import ru.spb.itolia.redmine.R.drawable;
-import ru.spb.itolia.redmine.R.id;
-import ru.spb.itolia.redmine.R.layout;
-import ru.spb.itolia.redmine.R.string;
-import ru.spb.itolia.redmine.R.style;
-import ru.spb.itolia.redmine.api.beans.Project;
-import ru.spb.itolia.redmine.api.beans.RedmineHost;
-import ru.spb.itolia.redmine.db.RedmineDBAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,20 +11,34 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import ru.spb.itolia.redmine.R;
+import ru.spb.itolia.redmine.api.beans.RedmineHost;
+import ru.spb.itolia.redmine.db.RedmineDBAdapter;
 
-public class RedmineHostsActivity extends SherlockListActivity {
-	RedmineDBAdapter DBAdapter;
+import java.util.List;
+
+public class HostsActivity extends SherlockListActivity {
+    private final String PREFS_NAME = "prefs";
+    RedmineDBAdapter DBAdapter;
+    SharedPreferences Prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
 		super.onCreate(savedInstanceState);
-		HostsDBTask task = new HostsDBTask();
-		task.execute();
+        Prefs = getSharedPreferences(PREFS_NAME, 0);
+        Boolean HostsAvailable = Prefs.getBoolean("HostsAvailable", false);
+        if(HostsAvailable) {
+            setContentView(R.layout.hosts_activity_layout_list);
+            HostsDBTask task = new HostsDBTask();
+            task.execute();
+        } else {
+            setContentView(R.layout.hosts_activity_layout);
+        }
+
 		/*
 		 * DBAdapter = new RedmineDBAdapter(
 		 * RedmineHostsActivity.this.getApplicationContext()); DBAdapter.open();
@@ -127,7 +131,7 @@ public class RedmineHostsActivity extends SherlockListActivity {
 		protected List<RedmineHost> doInBackground(Void... params) {
 			// String host = params[0];
 			DBAdapter = new RedmineDBAdapter(
-					RedmineHostsActivity.this.getApplicationContext());
+					HostsActivity.this.getApplicationContext());
 			DBAdapter.open();
 			List<RedmineHost> list = DBAdapter.getHosts();
 			DBAdapter.close();
@@ -137,7 +141,7 @@ public class RedmineHostsActivity extends SherlockListActivity {
 
 		@Override
 		protected void onPostExecute(List<RedmineHost> projects) {
-			HostsAdapter mAdapter = new HostsAdapter(RedmineHostsActivity.this,
+			HostsAdapter mAdapter = new HostsAdapter(HostsActivity.this,
 					projects);
 			setListAdapter(mAdapter);
 		}

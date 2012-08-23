@@ -1,18 +1,5 @@
 package ru.spb.itolia.redmine.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ru.spb.itolia.redmine.R;
-import ru.spb.itolia.redmine.R.drawable;
-import ru.spb.itolia.redmine.R.id;
-import ru.spb.itolia.redmine.R.layout;
-import ru.spb.itolia.redmine.R.string;
-import ru.spb.itolia.redmine.R.style;
-import ru.spb.itolia.redmine.api.RedmineApiManager;
-import ru.spb.itolia.redmine.api.beans.Project;
-import ru.spb.itolia.redmine.api.beans.RedmineHost;
-import ru.spb.itolia.redmine.db.RedmineDBAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,12 +11,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import ru.spb.itolia.redmine.R;
+import ru.spb.itolia.redmine.api.RedmineApiManager;
+import ru.spb.itolia.redmine.api.beans.Project;
+import ru.spb.itolia.redmine.api.beans.RedmineHost;
+import ru.spb.itolia.redmine.db.RedmineDBAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProjectsActivity extends SherlockListActivity implements OnNavigationListener {
@@ -89,7 +83,7 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
     		Toast toast = Toast.makeText(getApplicationContext(), "selected " + p.getLabel(), Toast.LENGTH_SHORT);
     		toast.show();
     	} else {
-    		Intent intent = new Intent(this, RedmineHostsActivity.class);
+    		Intent intent = new Intent(this, HostsActivity.class);
     		intent.putExtra("host_id", getIntent().getIntExtra("host_id", -1));
     		startActivity(intent);
     	}
