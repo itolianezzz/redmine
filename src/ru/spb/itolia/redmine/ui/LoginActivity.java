@@ -2,7 +2,6 @@ package ru.spb.itolia.redmine.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,23 +22,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends SherlockActivity implements OnClickListener {
-	private final String PREFS_NAME = "prefs";
     private static final String TAG = "Redmine.LoginActivity";
     protected RedmineApp app;
     EditText loginEdit;
 	EditText passwordEdit;
 	EditText hostEdit;
-	SharedPreferences prefs;
-	//RedmineDBAdapter DBAdapter; // = new RedmineDBAdapter(Login.this.getApplicationContext());
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		//setTheme(R.style.login_layout);
 		super.onCreate(savedInstanceState);
         app = (RedmineApp) getApplication();
         setContentView(R.layout.login_layout);
-		//DBAdapter = new RedmineDBAdapter(LoginActivity.this.getApplicationContext());
-		prefs = getSharedPreferences(PREFS_NAME, 0);
 		loginEdit = (EditText) findViewById(R.id.login_edit);
 		passwordEdit = (EditText) findViewById(R.id.password_edit);
 		hostEdit = (EditText) findViewById(R.id.host_edit);
@@ -49,19 +43,20 @@ public class LoginActivity extends SherlockActivity implements OnClickListener {
 	}
 
 	public void onClick(View arg0) {
-		Map<String, String> credentials = new HashMap<String, String>();
+		final Map<String, String> credentials = new HashMap<String, String>();
 		credentials.put("login", loginEdit.getText().toString());
 		credentials.put("pass", passwordEdit.getText().toString());
 		credentials.put("host", hostEdit.getText().toString());
-		LoginTask task = new LoginTask();
-		task.execute(credentials);
-		
+		//TODO check if host exists in DB, and suggest to update it
+        LoginTask task = new LoginTask();
+        task.execute(credentials);
 	}
 
-	public class LoginTask extends AsyncTask<Map<String, String>, Void, String> {
+	private class LoginTask extends AsyncTask<Map<String, String>, Void, String> {
 		protected ProgressDialog dialog;
 		
-		protected void onPreExecute(){
+		@Override
+        protected void onPreExecute(){
 			dialog = ProgressDialog.show(LoginActivity.this, "", 
                     "Loading. Please wait...", true);  //TODO Define string in strings.xml
 		}
@@ -91,7 +86,8 @@ public class LoginActivity extends SherlockActivity implements OnClickListener {
 			return api_key;
 		}
 		
-		protected void onPostExecute(String api_key) {
+		@Override
+        protected void onPostExecute(String api_key) {
 			if(api_key == null) {
                 dialog.dismiss();
                 Toast toast = Toast.makeText(LoginActivity.this, "Error! Try again", 5);
