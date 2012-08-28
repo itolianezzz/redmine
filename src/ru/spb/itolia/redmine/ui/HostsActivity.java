@@ -15,20 +15,22 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import ru.spb.itolia.redmine.R;
+import ru.spb.itolia.redmine.RedmineApp;
 import ru.spb.itolia.redmine.api.beans.RedmineHost;
-import ru.spb.itolia.redmine.db.RedmineDBAdapter;
 
 import java.util.List;
 
 public class HostsActivity extends SherlockListActivity {
     private final String PREFS_NAME = "prefs";
-    RedmineDBAdapter DBAdapter;
+    //RedmineDBAdapter DBAdapter;
+    protected RedmineApp app;
     SharedPreferences Prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
+        app = (RedmineApp) getApplication();
         setContentView(R.layout.hosts_activity_layout);
         Prefs = getSharedPreferences(PREFS_NAME, 0);
         Boolean HostsAvailable = Prefs.getBoolean("HostsAvailable", false);
@@ -123,11 +125,10 @@ public class HostsActivity extends SherlockListActivity {
 		@Override
 		protected List<RedmineHost> doInBackground(Void... params) {
 			// String host = params[0];
-			DBAdapter = new RedmineDBAdapter(
-					HostsActivity.this.getApplicationContext());
-			DBAdapter.open();
-			List<RedmineHost> list = DBAdapter.getHosts();
-			DBAdapter.close();
+			//DBAdapter = new RedmineDBAdapter(HostsActivity.this.getApplicationContext());
+			//DBAdapter.open();
+			List<RedmineHost> list = app.getHosts();
+			//DBAdapter.close();
 
 			return list;
 		}

@@ -13,10 +13,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import ru.spb.itolia.redmine.R;
+import ru.spb.itolia.redmine.RedmineApp;
 import ru.spb.itolia.redmine.api.RedmineApiManager;
 import ru.spb.itolia.redmine.api.beans.RedmineAccount;
 import ru.spb.itolia.redmine.api.beans.RedmineHost;
-import ru.spb.itolia.redmine.db.RedmineDBAdapter;
+import ru.spb.itolia.redmine.util.Settings;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,18 +25,20 @@ import java.util.Map;
 public class LoginActivity extends SherlockActivity implements OnClickListener {
 	private final String PREFS_NAME = "prefs";
     private static final String TAG = "Redmine.LoginActivity";
+    protected RedmineApp app;
     EditText loginEdit;
 	EditText passwordEdit;
 	EditText hostEdit;
 	SharedPreferences prefs;
-	RedmineDBAdapter DBAdapter; // = new RedmineDBAdapter(Login.this.getApplicationContext());
+	//RedmineDBAdapter DBAdapter; // = new RedmineDBAdapter(Login.this.getApplicationContext());
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		//setTheme(R.style.login_layout);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login_layout);
-		DBAdapter = new RedmineDBAdapter(LoginActivity.this.getApplicationContext());
+        app = (RedmineApp) getApplication();
+        setContentView(R.layout.login_layout);
+		//DBAdapter = new RedmineDBAdapter(LoginActivity.this.getApplicationContext());
 		prefs = getSharedPreferences(PREFS_NAME, 0);
 		loginEdit = (EditText) findViewById(R.id.login_edit);
 		passwordEdit = (EditText) findViewById(R.id.password_edit);
@@ -81,14 +84,10 @@ public class LoginActivity extends SherlockActivity implements OnClickListener {
                 e.printStackTrace();
 				return null;
 			}
-			DBAdapter.open();
-    		long host_id = DBAdapter.saveHost(new RedmineHost(null, LoginActivity.this.hostEdit.getText().toString(), label));
-
+			long host_id = app.saveHost(new RedmineHost(null, LoginActivity.this.hostEdit.getText().toString(), label));
             RedmineAccount account = new RedmineAccount(LoginActivity.this.loginEdit.getText().toString(), api_key, host_id);
-            DBAdapter.saveAccount(account);
-
-            DBAdapter.close();
-			prefs.edit().putBoolean("HostsAvailable", true).commit();
+            app.saveAccount(account);
+            Settings.setBoolean(Settings.PREF_HOSTS_AVAILABLE, true);
 			return api_key;
 		}
 		
