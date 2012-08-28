@@ -130,8 +130,7 @@ public class HostsActivity extends SherlockListActivity {
 
 		@Override
 		protected void onPostExecute(List<RedmineHost> hosts) {
-			HostsAdapter mAdapter = new HostsAdapter(HostsActivity.this,
-					hosts);
+			HostsAdapter mAdapter = new HostsAdapter(HostsActivity.this, hosts);
 			setListAdapter(mAdapter);
 		}
 	}

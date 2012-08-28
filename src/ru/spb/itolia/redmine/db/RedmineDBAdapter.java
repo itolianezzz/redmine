@@ -8,6 +8,7 @@ import ru.spb.itolia.redmine.api.beans.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RedmineDBAdapter {
 	private final Context context;
@@ -193,5 +194,14 @@ public class RedmineDBAdapter {
         values.put("api_key", account.getApi_key());
         values.put("host_id", account.getHost_id());
         db.insert(DBHelper.ACCOUNTS_TABLE_NAME, null, values);
+    }
+
+    public Boolean checkHost(Map<String, String> credentials) {
+        Cursor cursor = db.rawQuery("SELECT * FROM address, username  INNER JOIN accounts ON hosts.host_id=accounts.host_id WHERE address='" + credentials.get("host")+"' AND username = '"+ credentials.get("username")+"'", null);
+        if(cursor.getCount() > 0) {
+            return true;
+        } else {
+            return  false;
+        }
     }
 }

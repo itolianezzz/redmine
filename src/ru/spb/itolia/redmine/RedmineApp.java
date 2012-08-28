@@ -8,6 +8,7 @@ import ru.spb.itolia.redmine.api.beans.RedmineHost;
 import ru.spb.itolia.redmine.db.RedmineDBAdapter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -52,5 +53,9 @@ public class RedmineApp extends Application{
 
     public List<RedmineHost> getHosts() {
         return DBAdapter.getHosts();
+    }
+
+    public Boolean checkHost(Map<String, String> credentials) {
+        return DBAdapter.checkHost(credentials);
     }
 }
