@@ -4,14 +4,13 @@ public class RedmineHost {
 	
 	private Integer id;
 	private String address;
-	//private String api_key;
+	private User user;
 	private String label;
 	
 	public RedmineHost(Integer id, String host, String label) {
 		super();
 		this.id = id;
 		this.address = host;
-		//this.api_key = api_key;
 		this.label = label;
 	}
 	public String getAddress() {
@@ -20,12 +19,7 @@ public class RedmineHost {
 	public void setAddress(String host) {
 		this.address = host;
 	}
-/*	public String getApi_key() {
-		return api_key;
-	}
-	public void setApi_key(String api_key) {
-		this.api_key = api_key;
-	}*/
+
 	public String getLabel() {
 		return label;
 	}

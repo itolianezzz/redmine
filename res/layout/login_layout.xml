@@ -116,7 +116,7 @@
                             android:inputType="textPassword"
                             android:maxWidth="140dp"
                             android:minWidth="140dp"
-                            android:text="kakashka"
+                            android:text=""
                             android:textColor="@color/wet_asphalt"
                             android:textSize="16sp" />
                 </LinearLayout>

@@ -1,16 +1,13 @@
 package ru.spb.itolia.redmine.db;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ru.spb.itolia.redmine.api.beans.Issue;
-import ru.spb.itolia.redmine.api.beans.Project;
-import ru.spb.itolia.redmine.api.beans.RedmineHost;
-import ru.spb.itolia.redmine.api.beans.User;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import ru.spb.itolia.redmine.api.beans.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RedmineDBAdapter {
 	private final Context context;
@@ -111,19 +108,13 @@ public class RedmineDBAdapter {
 		return db.rawQuery(sql, selectionArgs);
 	}
 	
-	public synchronized void saveHost(RedmineHost host) {
+	public synchronized long saveHost(RedmineHost host) {
 		ContentValues values = new ContentValues();
 		values.put("address", host.getAddress());
-		//values.put("api_key", host.getApi_key());
 		values.put("label", host.getLabel());
-		Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.HOSTS_TABLE_NAME + " WHERE address = '" + host.getAddress() + "';", null);
-		if(cursor.getCount() < 1) {
-			db.insert(DBHelper.HOSTS_TABLE_NAME, null, values);
-			System.out.println("Inserted host to DB");
-		} else {
-			db.update(DBHelper.HOSTS_TABLE_NAME, values, "address = ?", new String[] {host.getAddress()});
-			System.out.println("Updated host in DB");
-		}
+        long id = db.insert(DBHelper.HOSTS_TABLE_NAME, null, values);
+	    System.out.println("Inserted host to DB");
+        return id;
 	}
 	
 	public synchronized List<RedmineHost> getHosts() {
@@ -156,7 +147,7 @@ public class RedmineDBAdapter {
 	public synchronized void saveUser(User user) {
 		ContentValues values = new ContentValues();
 		values.put("user_id", user.getId());
-		values.put("login", user.getLogin());
+		values.put("login_layout", user.getLogin());
 		values.put("mail", user.getMail());
 		values.put("firstname", user.getFirstname());
 		values.put("lastname", user.getLastname());
@@ -170,6 +161,7 @@ public class RedmineDBAdapter {
 			db.update(DBHelper.USERS_TABLE_NAME, values, "user_id = ? AND host_id=?", new String[] {user.getId(), user.getHost().toString()});
 			System.out.println("Updated user in DB");
 		}
+
 	}
 
 	public synchronized RedmineHost getHostByAddress(String address) {
@@ -194,4 +186,12 @@ public class RedmineDBAdapter {
 		}
 		
 	}
+
+    public void saveAccount(RedmineAccount account) {
+        ContentValues values = new ContentValues();
+        values.put("username", account.getUsername());
+        values.put("api_key", account.getApi_key());
+        values.put("host_id", account.getHost_id());
+        db.insert(DBHelper.ACCOUNTS_TABLE_NAME, null, values);
+    }
 }

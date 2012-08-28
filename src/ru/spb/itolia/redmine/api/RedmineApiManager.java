@@ -1,13 +1,9 @@
 package ru.spb.itolia.redmine.api;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import android.util.Log;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -15,16 +11,15 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import ru.spb.itolia.redmine.api.beans.*;
 
-import ru.spb.itolia.redmine.api.beans.CustomField;
-import ru.spb.itolia.redmine.api.beans.Issue;
-import ru.spb.itolia.redmine.api.beans.IssueStatus;
-import ru.spb.itolia.redmine.api.beans.Project;
-import ru.spb.itolia.redmine.api.beans.StatusList;
-import ru.spb.itolia.redmine.api.beans.User;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RedmineApiManager {
 	public static final String CHARSET = "UTF-8";
+    private static final String TAG = "Redmine.RedmineApiManager";
 	private String login;
 	private String password;
 	private String REDMINE_HOST = null;
@@ -66,9 +61,10 @@ public class RedmineApiManager {
 		HttpClient client = new HttpClient();
 		GetMethod first = new GetMethod(REDMINE_HOST + "/my/account");
 		first.setFollowRedirects(true);
-		client.executeMethod(first);
+        Log.v(TAG, "Executing first method to get api_key");
+        client.executeMethod(first);
 		Source response = new Source(first.getResponseBodyAsStream());
-		//System.out.println("response:" + response.toString() );
+		System.out.println("response:" + response.toString() );
 		List<Element> elements = response.getAllElements("meta");
 		for (Element el : elements) {
 			if (el.getAttributeValue("name") != null) {
@@ -77,6 +73,7 @@ public class RedmineApiManager {
 				}
 			}
 		}
+        Log.v(TAG, "token is " + token);
 		PostMethod second = new PostMethod(REDMINE_HOST + "/login");
 		second.addRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded");
@@ -84,16 +81,23 @@ public class RedmineApiManager {
 		second.addParameter("back_url", REDMINE_HOST + "/my/account");
 		second.addParameter("username", login);
 		second.addParameter("password", password);
-		client.executeMethod(second);
+		Log.v(TAG, "Executing second method");
+        client.executeMethod(second);
 		response = new Source(second.getResponseBodyAsStream());
-
+        Log.v(TAG, "response fo second " + response.toString());
 		GetMethod third = new GetMethod(REDMINE_HOST + "/my/account");
 		third.addRequestHeader("Referer", REDMINE_HOST + "/login?back_url="
 				+ REDMINE_HOST + "/my/account");
-		client.executeMethod(third);
+		Log.v(TAG, "Executing third method");
+        client.executeMethod(third);
 		response = new Source(third.getResponseBodyAsStream());
-		api_key = response.getElementById("api-access-key").getContent()
+		Log.v(TAG, "response fo third " + response.toString());
+        api_key = response.getElementById("api-access-key").getContent()
 				.toString();
+        if(api_key == null) {
+            throw new Exception("api_key is null");
+        }
+        Log.v(TAG, "api_key is " + api_key);
 
 		return api_key;
 	}
@@ -142,14 +146,14 @@ public class RedmineApiManager {
 	
 	public User getCurrentUser(String api_key) throws HttpException, JSONException, IOException{
 		JSONObject obj = new JSONObject(executeMethod("users/current", api_key, null)).getJSONObject("user");
-		User current = new User();
-		current.setId(obj.getString("id"));
-		current.setLogin(obj.getString("login"));
-		current.setFirstname(obj.getString("firstname"));
-		current.setLastname(obj.getString("lastname"));
-		current.setCreated_on(obj.getString("created_on"));
-		current.setMail(obj.getString("mail"));
-		return current;
+		User current_user = new User();
+		current_user.setId(obj.getString("id"));
+		current_user.setLogin(obj.getString("login"));
+		current_user.setFirstname(obj.getString("firstname"));
+		current_user.setLastname(obj.getString("lastname"));
+		current_user.setCreated_on(obj.getString("created_on"));
+		current_user.setMail(obj.getString("mail"));
+		return current_user;
 	}
 	
 	public List<Issue> getIssues(String api_key, String projectId)

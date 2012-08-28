@@ -29,27 +29,20 @@ public class HostsActivity extends SherlockListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.hosts_activity_layout);
         Prefs = getSharedPreferences(PREFS_NAME, 0);
         Boolean HostsAvailable = Prefs.getBoolean("HostsAvailable", false);
         if(HostsAvailable) {
-            setContentView(R.layout.hosts_activity_layout_list);
             HostsDBTask task = new HostsDBTask();
             task.execute();
         } else {
-            setContentView(R.layout.hosts_activity_layout);
+            getListView().setEmptyView(findViewById(android.R.id.empty));
         }
-
-		/*
-		 * DBAdapter = new RedmineDBAdapter(
-		 * RedmineHostsActivity.this.getApplicationContext()); DBAdapter.open();
-		 * List<RedmineHost> hosts = DBAdapter.getHosts(); DBAdapter.close();
-		 */
-
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
     	menu.add(Menu.NONE, R.string.action_bar_new_host, Menu.NONE, getString(R.string.action_bar_new_host))
 		.setIcon(R.drawable.new_project)
@@ -61,12 +54,12 @@ public class HostsActivity extends SherlockListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int selectedItemId = item.getItemId();
 		switch (selectedItemId) {
-		case android.R.id.home:
+/*		case android.R.id.home:
 			Intent intent = new Intent(this, ProjectsActivity.class)
 					.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtra("host_id", getIntent().getIntExtra("host_id", -1));
 			startActivity(intent);
-			break;
+			break;*/
 		case R.string.action_bar_new_host:
 			Intent mIntent = new Intent(this, LoginActivity.class);
 			mIntent.putExtra("from_hosts_list", true);
@@ -140,9 +133,9 @@ public class HostsActivity extends SherlockListActivity {
 		}
 
 		@Override
-		protected void onPostExecute(List<RedmineHost> projects) {
+		protected void onPostExecute(List<RedmineHost> hosts) {
 			HostsAdapter mAdapter = new HostsAdapter(HostsActivity.this,
-					projects);
+					hosts);
 			setListAdapter(mAdapter);
 		}
 	}

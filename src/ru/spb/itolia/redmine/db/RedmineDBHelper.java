@@ -15,9 +15,10 @@ public class RedmineDBHelper extends SQLiteOpenHelper {
     protected final String MEMBERSHIPS_TABLE_NAME = "memberships";
     protected final String HOSTS_TABLE_NAME = "hosts";
     protected final String KEYS_TABLE_NAME = "api_keys";
-    
-    
-	public RedmineDBHelper(Context context) {
+    protected final String ACCOUNTS_TABLE_NAME = "accounts";
+
+
+    public RedmineDBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		// TODO Auto-generated constructor stub
 	}
@@ -38,14 +39,13 @@ public class RedmineDBHelper extends SQLiteOpenHelper {
 				+ " (_id INTEGER PRIMARY KEY, tracker_id NUMERIC, name TEXT, host_id NUMERIC);"); //Trackers
 		db.execSQL("CREATE TABLE "
 				+ USERS_TABLE_NAME
-				+ " (_id INTEGER PRIMARY KEY, user_id NUMERIC, login TEXT, FirstName TEXT, LastName TEXT, mail TEXT, created_on TEXT, host_id NUMERIC);"); //Users
+				+ " (_id INTEGER PRIMARY KEY, user_id NUMERIC, login_layout TEXT, FirstName TEXT, LastName TEXT, mail TEXT, created_on TEXT, host_id NUMERIC);"); //Users
 		db.execSQL("CREATE TABLE "
 				+ HOSTS_TABLE_NAME
 				+ " (host_id INTEGER PRIMARY KEY, address TEXT, label TEXT);"); //Hosts
-		db.execSQL("CREATE TABLE "
-				+ KEYS_TABLE_NAME
-				+ " (_id INTEGER PRIMARY KEY, host_id INTEGER, api_key TEXT);"); //Hosts
-
+        db.execSQL("CREATE TABLE "
+                + ACCOUNTS_TABLE_NAME
+                + " (_id INTEGER PRIMARY KEY, username TEXT, api_key TEXT, host_id INTEGER);"); //RedmineAccounts
 	}
 
 	@Override
