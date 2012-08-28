@@ -1,10 +1,13 @@
 package ru.spb.itolia.redmine;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 import ru.spb.itolia.redmine.api.beans.RedmineAccount;
 import ru.spb.itolia.redmine.api.beans.RedmineHost;
 import ru.spb.itolia.redmine.db.RedmineDBAdapter;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,12 +16,14 @@ import ru.spb.itolia.redmine.db.RedmineDBAdapter;
  * Time: 10:36
  */
 public class RedmineApp extends Application{
-    private RedmineDBAdapter DBAdapter = new RedmineDBAdapter(getApplicationContext());
+    private RedmineDBAdapter DBAdapter;
     private static final String TAG = "Redmine.Application";
+    public static Context context;
 
     @Override
     public void onCreate(){
         super.onCreate();
+        DBAdapter = new RedmineDBAdapter(getApplicationContext());
         DBAdapter.open();
     }
 
@@ -43,5 +48,9 @@ public class RedmineApp extends Application{
     public void saveAccount(RedmineAccount account) {
         DBAdapter.saveAccount(account);
         Log.v(TAG, "Saved account");
+    }
+
+    public List<RedmineHost> getHosts() {
+        return DBAdapter.getHosts();
     }
 }
