@@ -32,7 +32,7 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 	//TODO: возможно, инициализировать новый объект RedmineDBAdapter тут, чтобы не создавать каждый раз.
     //RedmineDBAdapter DBAdapter; // = new RedmineDBAdapter(ProjectsActivity.this.getApplicationContext())
     List<Object> spinner = new ArrayList<Object>();
-    ActionBar actionBar = getSupportActionBar();
+    ActionBar actionBar;
 
 	
     @Override
@@ -40,6 +40,7 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
     	setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
     	super.onCreate(savedInstanceState);
         app = (RedmineApp) getApplication();
+        actionBar = getSupportActionBar();
 /*    	List<RedmineHost> hosts = app.getHosts();
     	RedmineHost currentHost = app.getHostById(getIntent().getIntExtra("host_id", -1));
     	for(RedmineHost host: hosts) {
