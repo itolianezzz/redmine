@@ -31,6 +31,7 @@ public class HostsActivity extends SherlockListActivity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
+        context = this;
         app = (RedmineApp) getApplication();
         setContentView(R.layout.hosts_activity_layout);
         Boolean HostsAvailable = Settings.getBoolean(Settings.PREF_HOSTS_AVAILABLE);
