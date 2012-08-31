@@ -20,7 +20,7 @@ import java.util.Map;
 public class RedmineApp extends Application{
     private RedmineDBAdapter DBAdapter;
     private static final String TAG = "Redmine.Application";
-    public static Context context;
+
 
     @Override
     public void onCreate(){

@@ -2,7 +2,7 @@ package ru.spb.itolia.redmine.util;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import ru.spb.itolia.redmine.RedmineApp;
+import ru.spb.itolia.redmine.ui.HostsActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +15,7 @@ public class Settings {
 
 
     public static SharedPreferences getPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(RedmineApp.context);
+        return PreferenceManager.getDefaultSharedPreferences(HostsActivity.context);
     }
 
     public static String getString(String name) {

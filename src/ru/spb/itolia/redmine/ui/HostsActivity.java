@@ -2,7 +2,6 @@ package ru.spb.itolia.redmine.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,10 +21,11 @@ import ru.spb.itolia.redmine.util.Settings;
 import java.util.List;
 
 public class HostsActivity extends SherlockListActivity {
-    private final String PREFS_NAME = "prefs";
+    //private final String PREFS_NAME = "prefs";
     //RedmineDBAdapter DBAdapter;
     protected RedmineApp app;
-    SharedPreferences Prefs;
+    public static Context context;
+    //SharedPreferences Prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -236,7 +236,6 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 			try {
 				projects = mgr.getProjects(api_key);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
 			System.out.println("Saving projects to DB");
@@ -249,9 +248,7 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 		
 		@Override
 		protected void onPostExecute(List<Project> projects) {
-
-			System.out.println("taking data from web");
-			ProjectsAdapter mAdapter = new ProjectsAdapter(ProjectsActivity.this, projects);
+ 			ProjectsAdapter mAdapter = new ProjectsAdapter(ProjectsActivity.this, projects);
 	        setListAdapter(mAdapter);
 	        refresh.setIcon(R.drawable.refresh);
 		}

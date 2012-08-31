@@ -119,13 +119,13 @@ public class RedmineApiManager {
 		for(int i=0;i<projects.length();i++) {
 			JSONObject obj = projects.getJSONObject(i);
 			Project proj = new Project();
-			proj.setId(obj.getString("id"));
+			proj.setId(obj.getInt("id"));
 			proj.setName(obj.getString("name"));
 			proj.setIdentifier(obj.getString("identifier"));
 			proj.setCreated_on(obj.getString("created_on"));
 			proj.setUpdated_on(obj.getString("updated_on"));
 			proj.setDescription(obj.getString("description"));
-			proj.setHost_id(this.REDMINE_HOST);
+			proj.setHost_id(null);
 			projectsList.add(proj);
 		}
 		return projectsList;
@@ -135,7 +135,7 @@ public class RedmineApiManager {
 		JSONObject response = new JSONObject(executeMethod("projects/" + project_id, api_key, null));
 		JSONObject obj = response.getJSONObject("project");
 		Project proj = new Project();
-		proj.setId(obj.getString("id"));
+		proj.setId(obj.getInt("id"));
 		proj.setName(obj.getString("name"));
 		proj.setIdentifier(obj.getString("identifier"));
 		proj.setCreated_on(obj.getString("created_on"));
