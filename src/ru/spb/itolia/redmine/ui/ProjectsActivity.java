@@ -177,7 +177,7 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 
  
 		public HostsAdapter(Context context, List<Object> spinner) {
-			super(context, R.layout.hosts_row_spinner, R.id.host_label, spinner);
+			super(context, R.layout.hosts_row, R.id.host_label, spinner);
 			this.spinner = spinner;
 			this.context = context;
 		}
@@ -192,7 +192,7 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 			View rowView = convertView;
 			if(rowView == null) {
 				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				rowView = inflater.inflate(R.layout.hosts_row_spinner, null);
+				rowView = inflater.inflate(R.layout.hosts_row, null);
 				ViewHolder viewHolder = new ViewHolder();
 				rowView.setTag(viewHolder);
 				

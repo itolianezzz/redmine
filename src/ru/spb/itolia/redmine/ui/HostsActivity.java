@@ -91,14 +91,15 @@ public class HostsActivity extends SherlockListActivity {
 		// private LayoutInflater mInflater;
 
 		public HostsAdapter(Context context, List<RedmineHost> hosts) {
-			super(context, R.layout.hosts_row_spinner, R.id.host_label, hosts);
+			super(context, R.layout.hosts_row, R.id.host_label, hosts);
 			this.hosts = hosts;
 			this.context = context;
 		}
 
-		class ViewHolder { // TODO fix static
+		class ViewHolder {
 			public TextView label;
 			public TextView host;
+            public TextView username;
 		}
 
 		@Override
@@ -107,18 +108,18 @@ public class HostsActivity extends SherlockListActivity {
 			if (rowView == null) {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				rowView = inflater.inflate(R.layout.hosts_row_spinner, null);
+				rowView = inflater.inflate(R.layout.hosts_row, null);
 				ViewHolder viewHolder = new ViewHolder();
 				rowView.setTag(viewHolder);
-
 			}
-
 			ViewHolder holder = (ViewHolder) rowView.getTag();
-			holder.host = (TextView) rowView.findViewById(R.id.host_address);
+			holder.host = (TextView) rowView.findViewById(R.id.address);
 			holder.label = (TextView) rowView.findViewById(R.id.host_label);
-			RedmineHost p = (RedmineHost) hosts.get(position);
+            holder.username = (TextView) rowView.findViewById(R.id.username);
+			RedmineHost p = (RedmineHost) hosts.get(position);   //TODO change for RedmineSession
 			holder.host.setText(p.getAddress());
 			holder.label.setText(p.getLabel());
+            holder.username.setText();
 			return rowView;
 		}
 	}
