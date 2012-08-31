@@ -17,6 +17,7 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import ru.spb.itolia.redmine.R;
+import ru.spb.itolia.redmine.RedmineApp;
 import ru.spb.itolia.redmine.api.RedmineApiManager;
 import ru.spb.itolia.redmine.api.beans.Project;
 import ru.spb.itolia.redmine.api.beans.RedmineHost;
@@ -27,33 +28,30 @@ import java.util.List;
 
 
 public class ProjectsActivity extends SherlockListActivity implements OnNavigationListener {
-    //private SharedPreferences settings;
-    //private final String PREFS_NAME = "prefs";
     MenuItem refresh;
-	//private ProjectsAdapter mAdapter;
+    protected RedmineApp app;
 	//TODO: возможно, инициализировать новый объект RedmineDBAdapter тут, чтобы не создавать каждый раз.
-    RedmineDBAdapter DBAdapter; // = new RedmineDBAdapter(ProjectsActivity.this.getApplicationContext())
+    //RedmineDBAdapter DBAdapter; // = new RedmineDBAdapter(ProjectsActivity.this.getApplicationContext())
     List<Object> spinner = new ArrayList<Object>();
+    ActionBar actionBar = getSupportActionBar();
 
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
     	super.onCreate(savedInstanceState);
-    	DBAdapter = new RedmineDBAdapter(ProjectsActivity.this.getApplicationContext());
-    	DBAdapter.open();
-    	List<RedmineHost> hosts = DBAdapter.getHosts();
-    	RedmineHost currentHost = DBAdapter.getHost(getIntent().getIntExtra("host_id", -1));
-    	DBAdapter.close();
+        app = (RedmineApp) getApplication();
+/*    	List<RedmineHost> hosts = app.getHosts();
+    	RedmineHost currentHost = app.getHostById(getIntent().getIntExtra("host_id", -1));
     	for(RedmineHost host: hosts) {
     		spinner.add(host);
     	}
-    	spinner.add(getString(R.string.showHosts));
-    	HostsAdapter adapter = new HostsAdapter(this, spinner);
-        ActionBar actionBar = getSupportActionBar();
-    	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-    	actionBar.setListNavigationCallbacks(adapter, this);
-    	ProjectsDBTask task = new ProjectsDBTask();
+        spinner.add(getString(R.string.showHosts));
+    	HostsAdapter adapter = new HostsAdapter(this, spinner);*/
+        FillSpinnerTask fstask = new FillSpinnerTask();
+        fstask.execute();
+
+      	ProjectsDBTask task = new ProjectsDBTask();
     	task.execute(getIntent().getIntExtra("host_id", -1));
     }
     
@@ -232,11 +230,11 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 		@Override
 		protected List<Project> doInBackground(Integer... params) {
 			Integer host_id = params[0];
-			DBAdapter.open();
-			String api_key = DBAdapter.getApi_key(host_id);
-			String host_addr = DBAdapter.getHost(host_id).getAddress();
-			DBAdapter.close();
-			RedmineApiManager mgr = new RedmineApiManager(host_addr);
+			//DBAdapter.open();
+			String api_key = app.getApi_key(host_id);
+			String host_addr = app.getHost(host_id).getAddress();
+			//DBAdapter.close();
+			RedmineApiManager mgr = new RedmineApiManager(host_addr, api_key);
 			
 			List<Project> projects = null;
 			try {
@@ -245,12 +243,12 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
-			DBAdapter.open();
+			//DBAdapter.open();
 			System.out.println("Saving projects to DB");
 			for(Project project: projects) {
-				DBAdapter.saveProject(project, host_id);
+				app.saveProject(project);
 			}
-			DBAdapter.close();
+			//DBAdapter.close();
 			
 			return projects;
 		}
@@ -273,9 +271,9 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 		protected List<Project> doInBackground(Integer... params) {
 			Integer host_id = params[0];
 			//DBAdapter = new RedmineDBAdapter(ProjectsActivity.this.getApplicationContext());
-			DBAdapter.open();
-			List<Project> projects = DBAdapter.getProjects(host_id);
-			DBAdapter.close();
+			//DBAdapter.open();
+			List<Project> projects = app.getProjects(host_id);
+			//DBAdapter.close();
 			
 			return projects;
 		}
@@ -291,5 +289,26 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 				setListAdapter(mAdapter);
 			}
 		}
+    }
+
+    private class FillSpinnerTask extends AsyncTask<Void, Void, List<RedmineHost>> {
+
+        @Override
+        protected List<RedmineHost> doInBackground(Void... params) {
+            List<RedmineHost> hosts = app.getHosts();
+            return hosts;
+        }
+
+        @Override
+        protected void onPostExecute(List<RedmineHost> hosts){
+            spinner.clear();
+            for(RedmineHost host: hosts) {
+                spinner.add(host);
+            }
+            spinner.add(getString(R.string.showHosts));
+            HostsAdapter adapter = new HostsAdapter(ProjectsActivity.this, spinner);
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+            actionBar.setListNavigationCallbacks(adapter, ProjectsActivity.this);
+        }
     }
 }

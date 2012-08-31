@@ -80,6 +80,8 @@ public class HostsActivity extends SherlockListActivity {
 		startActivity(intent);
 		finish();
 	}
+
+
 	
 	private class HostsAdapter extends ArrayAdapter<RedmineHost> {
 		private Context context;
