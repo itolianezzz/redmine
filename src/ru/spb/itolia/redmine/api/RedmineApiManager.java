@@ -125,7 +125,7 @@ public class RedmineApiManager {
 			proj.setCreated_on(obj.getString("created_on"));
 			proj.setUpdated_on(obj.getString("updated_on"));
 			proj.setDescription(obj.getString("description"));
-			proj.setHost(this.REDMINE_HOST);
+			proj.setHost_id(this.REDMINE_HOST);
 			projectsList.add(proj);
 		}
 		return projectsList;

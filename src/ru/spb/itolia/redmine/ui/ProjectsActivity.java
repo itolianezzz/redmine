@@ -21,7 +21,6 @@ import ru.spb.itolia.redmine.RedmineApp;
 import ru.spb.itolia.redmine.api.RedmineApiManager;
 import ru.spb.itolia.redmine.api.beans.Project;
 import ru.spb.itolia.redmine.api.beans.RedmineHost;
-import ru.spb.itolia.redmine.db.RedmineDBAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -230,12 +229,9 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 		@Override
 		protected List<Project> doInBackground(Integer... params) {
 			Integer host_id = params[0];
-			//DBAdapter.open();
 			String api_key = app.getApi_key(host_id);
 			String host_addr = app.getHost(host_id).getAddress();
-			//DBAdapter.close();
 			RedmineApiManager mgr = new RedmineApiManager(host_addr, api_key);
-			
 			List<Project> projects = null;
 			try {
 				projects = mgr.getProjects(api_key);
@@ -243,13 +239,11 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
-			//DBAdapter.open();
 			System.out.println("Saving projects to DB");
 			for(Project project: projects) {
-				app.saveProject(project);
+				project.setHost_id(host_id);
+                app.saveProject(project);
 			}
-			//DBAdapter.close();
-			
 			return projects;
 		}
 		

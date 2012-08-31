@@ -1,16 +1,16 @@
 package ru.spb.itolia.redmine.api.beans;
 
 public class Project {
-	private String project_id;
+	private Integer project_id;
 	private String name;
 	private String project_identifier;
 	private String created_on;
 	private String updated_on;
 	private String description;
-	private String host;
+	private Integer host_id;
 	
-	public Project(String project_id, String name, String project_identifier,
-			String created_on, String updated_on, String description, String host) {
+	public Project(Integer project_id, String name, String project_identifier,
+			String created_on, String updated_on, String description, Integer host_id) {
 		super();
 		this.project_id = project_id;
 		this.name = name;
@@ -18,18 +18,18 @@ public class Project {
 		this.created_on = created_on;
 		this.updated_on = updated_on;
 		this.description = description;
-		this.host = host;
+		this.host_id = host_id;
 	}
 
 	public Project() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return project_id;
 	}
 
-	public void setId(String project_id) {
+	public void setId(Integer project_id) {
 		this.project_id = project_id;
 	}
 
@@ -73,12 +73,12 @@ public class Project {
 		this.description = description;
 	}
 	
-	public String getHost() {
-		return host;
+	public Integer getHost_id() {
+		return host_id;
 	}
 
-	public void setHost(String host) {
-		this.host = host;
+	public void setHost_id(Integer host_id) {
+		this.host_id = host_id;
 	}
 
 	@Override

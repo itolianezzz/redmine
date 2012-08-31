@@ -39,7 +39,7 @@ public class RedmineDBAdapter {
 		List<Project> list = new ArrayList<Project>();
 		while(!cursor.isAfterLast()){
 			Project project = new Project();
-			project.setId(cursor.getString(1));
+			project.setId(cursor.getInt(1));
 			project.setName(cursor.getString(2));
 			project.setIdentifier(cursor.getString(3));
 			project.setCreated_on(cursor.getString(4));
@@ -50,19 +50,19 @@ public class RedmineDBAdapter {
 		return list;
 	}
 	
-	public synchronized void saveProject(Project project, Integer host_id) {
-		Cursor cursor = db.query(DBHelper.PROJECTS_TABLE_NAME, new String[] {"identifier, host_id"}, "identifier=? AND host_id=?", new String[] {project.getIdentifier(), host_id.toString()}, null, null, null);
+	public synchronized void saveProject(Project project) {
+		Cursor cursor = db.query(DBHelper.PROJECTS_TABLE_NAME, new String[] {"identifier, host_id"}, "identifier=? AND host_id=?", new String[] {project.getIdentifier(), project.getHost_id().toString()}, null, null, null);
 		ContentValues values = new ContentValues();
 		values.put("project_id", project.getId());
 		values.put("name", project.getName());
 		values.put("identifier", project.getIdentifier());
 		values.put("description", project.getDescription());
 		values.put("created_on", project.getCreated_on());
-		values.put("host_id", host_id);
+		values.put("host_id", project.getHost_id());
 		if(cursor.getCount() < 1) {
 			db.insert(DBHelper.PROJECTS_TABLE_NAME, null, values);
 		} else {
-			db.update(DBHelper.PROJECTS_TABLE_NAME, values, "identifier=? AND host_id=?", new String[] {project.getIdentifier(), host_id.toString()});
+			db.update(DBHelper.PROJECTS_TABLE_NAME, values, "identifier=? AND host_id=?", new String[] {project.getIdentifier(), project.getHost_id().toString()});
 		}
 	}
 
