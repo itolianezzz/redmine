@@ -8,22 +8,20 @@
             android:layout_height="wrap_content" android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:id="@+id/linearLayout">
         <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.4"
                 android:text="New Text"
-                android:id="@+id/username" android:layout_gravity="center"/>
+                android:id="@+id/username" android:layout_gravity="center_vertical|left"/>
         <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:text="at"
-                android:id="@+id/at" android:layout_gravity="left|center_vertical" android:gravity="center"/>
+                android:text=" @ "
+                android:id="@+id/at" android:layout_gravity="left|center_vertical" android:gravity="center"
+                />
 
         <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:text="New Text"
                 android:id="@+id/host_label" android:layout_gravity="left|center_vertical"/>
     </LinearLayout>
