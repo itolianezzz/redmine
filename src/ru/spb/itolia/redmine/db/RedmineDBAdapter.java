@@ -204,4 +204,16 @@ public class RedmineDBAdapter {
             return  false;
         }
     }
+
+    public List<RedmineSession> getSessions() {
+        Cursor cursor = db.rawQuery("SELECT address, label, username, api_key FROM accounts INNER JOIN hosts ON hosts.host_id=accounts.host_id ", null);
+        cursor.moveToFirst();
+        List<RedmineSession> sessions = new ArrayList<RedmineSession>();
+        while(!cursor.isAfterLast()){
+            RedmineSession session = new RedmineSession(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
+            sessions.add(session);
+            cursor.moveToNext();
+        }
+    return sessions;
+    }
 }

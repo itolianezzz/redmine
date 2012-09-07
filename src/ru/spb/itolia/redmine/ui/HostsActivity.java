@@ -16,6 +16,7 @@ import com.actionbarsherlock.view.MenuItem;
 import ru.spb.itolia.redmine.R;
 import ru.spb.itolia.redmine.RedmineApp;
 import ru.spb.itolia.redmine.api.beans.RedmineHost;
+import ru.spb.itolia.redmine.api.beans.RedmineSession;
 import ru.spb.itolia.redmine.util.Settings;
 
 import java.util.List;
@@ -84,15 +85,13 @@ public class HostsActivity extends SherlockListActivity {
 
 
 	
-	private class HostsAdapter extends ArrayAdapter<RedmineHost> {
+	private class HostsAdapter extends ArrayAdapter<RedmineSession> {
 		private Context context;
-		private List<RedmineHost> hosts;
+		private List<RedmineSession> sessions;
 
-		// private LayoutInflater mInflater;
-
-		public HostsAdapter(Context context, List<RedmineHost> hosts) {
-			super(context, R.layout.hosts_row, R.id.host_label, hosts);
-			this.hosts = hosts;
+		public HostsAdapter(Context context, List<RedmineSession> sessions) {
+			super(context, R.layout.hosts_row, R.id.host_label, sessions);
+			this.sessions = sessions;
 			this.context = context;
 		}
 
@@ -116,25 +115,25 @@ public class HostsActivity extends SherlockListActivity {
 			holder.host = (TextView) rowView.findViewById(R.id.address);
 			holder.label = (TextView) rowView.findViewById(R.id.host_label);
             holder.username = (TextView) rowView.findViewById(R.id.username);
-			RedmineHost p = (RedmineHost) hosts.get(position);   //TODO change for RedmineSession
+			RedmineSession p = (RedmineSession) sessions.get(position);   //TODO change for RedmineSession
 			holder.host.setText(p.getAddress());
 			holder.label.setText(p.getLabel());
-            holder.username.setText();
+            holder.username.setText(p.getUsername());
 			return rowView;
 		}
 	}
 
-	private class HostsDBTask extends AsyncTask<Void, Void, List<RedmineHost>> {
+	private class HostsDBTask extends AsyncTask<Void, Void, List<RedmineSession>> {
 
 		@Override
-		protected List<RedmineHost> doInBackground(Void... params) {
-			List<RedmineHost> list = app.getHosts();
-			return list;
+		protected List<RedmineSession> doInBackground(Void... params) {
+			List<RedmineSession> sessions = app.getSessions();
+			return sessions;
 		}
 
 		@Override
-		protected void onPostExecute(List<RedmineHost> hosts) {
-			HostsAdapter mAdapter = new HostsAdapter(HostsActivity.this, hosts);
+		protected void onPostExecute(List<RedmineSession> sessions) {
+			HostsAdapter mAdapter = new HostsAdapter(HostsActivity.this, sessions);
 			setListAdapter(mAdapter);
 		}
 	}

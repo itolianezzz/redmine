@@ -1,11 +1,11 @@
 package ru.spb.itolia.redmine;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 import ru.spb.itolia.redmine.api.beans.Project;
 import ru.spb.itolia.redmine.api.beans.RedmineAccount;
 import ru.spb.itolia.redmine.api.beans.RedmineHost;
+import ru.spb.itolia.redmine.api.beans.RedmineSession;
 import ru.spb.itolia.redmine.db.RedmineDBAdapter;
 
 import java.util.List;
@@ -74,5 +74,9 @@ public class RedmineApp extends Application{
 
     public void saveProject(Project project) {
         DBAdapter.saveProject(project);
+    }
+
+    public List<RedmineSession> getSessions() {
+        return DBAdapter.getSessions();
     }
 }
