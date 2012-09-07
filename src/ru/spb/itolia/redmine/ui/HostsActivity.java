@@ -66,7 +66,7 @@ public class HostsActivity extends SherlockListActivity {
 			break;*/
 		case R.string.action_bar_new_host:
 			Intent mIntent = new Intent(this, LoginActivity.class);
-			mIntent.putExtra("from_hosts_list", true);
+			//mIntent.putExtra("from_hosts_list", true);
 			startActivityForResult(mIntent, 0);
 			break;
 		}

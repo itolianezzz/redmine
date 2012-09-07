@@ -29,8 +29,6 @@ import java.util.List;
 public class ProjectsActivity extends SherlockListActivity implements OnNavigationListener {
     MenuItem refresh;
     protected RedmineApp app;
-	//TODO: возможно, инициализировать новый объект RedmineDBAdapter тут, чтобы не создавать каждый раз.
-    //RedmineDBAdapter DBAdapter; // = new RedmineDBAdapter(ProjectsActivity.this.getApplicationContext())
     List<Object> spinner = new ArrayList<Object>();
     ActionBar actionBar;
 
