@@ -213,7 +213,7 @@ public class RedmineDBAdapter {
     }
 
     public List<RedmineSession> getSessions() {
-        Cursor cursor = db.rawQuery("SELECT address, label, username, api_key, host_id FROM accounts INNER JOIN hosts ON hosts.host_id=accounts.host_id ", null);
+        Cursor cursor = db.rawQuery("SELECT address, label, username, api_key, hosts.host_id AS host FROM accounts INNER JOIN hosts ON hosts.host_id=accounts.host_id ", null);
         cursor.moveToFirst();
         List<RedmineSession> sessions = new ArrayList<RedmineSession>();
         while(!cursor.isAfterLast()){
