@@ -8,7 +8,6 @@ public class RedmineHost {
 	private String label;
 	
 	public RedmineHost(Integer id, String host, String label) {
-		super();
 		this.id = id;
 		this.address = host;
 		this.label = label;

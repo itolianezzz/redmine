@@ -15,7 +15,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import ru.spb.itolia.redmine.R;
 import ru.spb.itolia.redmine.RedmineApp;
-import ru.spb.itolia.redmine.api.beans.RedmineHost;
 import ru.spb.itolia.redmine.api.beans.RedmineSession;
 import ru.spb.itolia.redmine.util.Settings;
 
@@ -75,8 +74,8 @@ public class HostsActivity extends SherlockListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		RedmineHost item = (RedmineHost) getListAdapter().getItem(position);
-		Integer host_id = item.getId();
+		RedmineSession item = (RedmineSession) getListAdapter().getItem(position);
+		Integer host_id = item.getHost_id();
 		Intent intent = new Intent(this, ProjectsActivity.class);
 		intent.putExtra("host_id", host_id);
 		startActivity(intent);

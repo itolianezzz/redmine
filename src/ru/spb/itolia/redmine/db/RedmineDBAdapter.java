@@ -49,6 +49,13 @@ public class RedmineDBAdapter {
 		cursor.close();
 		return list;
 	}
+
+    public synchronized List<Project> getProjects(String address) {
+        Cursor cursor = db.query(DBHelper.HOSTS_TABLE_NAME, new String[] {"host_id"}, "address=?", new String[] {address}, null, null, null);
+        cursor.moveToFirst();
+        String host_id = cursor.getString(1);
+        return getProjects(host_id);
+    }
 	
 	public synchronized void saveProject(Project project) {
 		Cursor cursor = db.query(DBHelper.PROJECTS_TABLE_NAME, new String[] {"identifier, host_id"}, "identifier=? AND host_id=?", new String[] {project.getIdentifier(), project.getHost_id().toString()}, null, null, null);
@@ -206,11 +213,11 @@ public class RedmineDBAdapter {
     }
 
     public List<RedmineSession> getSessions() {
-        Cursor cursor = db.rawQuery("SELECT address, label, username, api_key FROM accounts INNER JOIN hosts ON hosts.host_id=accounts.host_id ", null);
+        Cursor cursor = db.rawQuery("SELECT address, label, username, api_key, host_id FROM accounts INNER JOIN hosts ON hosts.host_id=accounts.host_id ", null);
         cursor.moveToFirst();
         List<RedmineSession> sessions = new ArrayList<RedmineSession>();
         while(!cursor.isAfterLast()){
-            RedmineSession session = new RedmineSession(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
+            RedmineSession session = new RedmineSession(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4));
             sessions.add(session);
             cursor.moveToNext();
         }

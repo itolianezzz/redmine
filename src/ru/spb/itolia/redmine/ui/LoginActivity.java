@@ -42,17 +42,19 @@ public class LoginActivity extends SherlockActivity implements OnClickListener {
 
 	}
 
-	public void onClick(View arg0) {
-		final Map<String, String> credentials = new HashMap<String, String>();
-		credentials.put("login", loginEdit.getText().toString());
-		credentials.put("pass", passwordEdit.getText().toString());
-		credentials.put("host", hostEdit.getText().toString());
-		//TODO check if host exists in DB, and suggest to update it
+    public void onClick(View arg0) {
+        final Map<String, String> credentials = new HashMap<String, String>();
+        credentials.put("login", loginEdit.getText().toString());
+        credentials.put("pass", passwordEdit.getText().toString());
+        credentials.put("host", hostEdit.getText().toString());
         LoginTask task = new LoginTask();
-        task.execute(credentials);
-	}
+                task.execute(credentials);
+        }
 
-	private class LoginTask extends AsyncTask<Map<String, String>, Void, String> {
+
+
+
+    private class LoginTask extends AsyncTask<Map<String, String>, Void, String> {
 		protected ProgressDialog dialog;
 		
 		@Override
@@ -103,3 +105,4 @@ public class LoginActivity extends SherlockActivity implements OnClickListener {
 		}
 	}
 }
+

@@ -11,12 +11,14 @@ public class RedmineSession {
     private String label;
     private String username;
     private String api_key;
+    private int host_id;
 
-    public RedmineSession(String address, String label, String username, String api_key) {
+    public RedmineSession(String address, String label, String username, String api_key, int host_id) {
         this.address = address;
         this.label = label;
         this.username = username;
         this.api_key = api_key;
+        this.host_id = host_id;
     }
 
     public String getAddress() {
@@ -49,5 +51,13 @@ public class RedmineSession {
 
     public void setApi_key(String api_key) {
         this.api_key = api_key;
+    }
+
+    public int getHost_id() {
+        return host_id;
+    }
+
+    public void setHost_id(int host_id) {
+        this.host_id = host_id;
     }
 }
