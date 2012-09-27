@@ -273,7 +273,7 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 			if(projects.isEmpty()) {
 				//TODO check if it is ok to run asynctask from asynctask
 				ProjectsTask task = new ProjectsTask();
-				task.execute(getIntent().getIntExtra("host_id", -1));
+				task.execute(getIntent().getIntExtra(RedmineApp.HOST_ID, -1));
 			} else {
 				ProjectsAdapter mAdapter = new ProjectsAdapter(ProjectsActivity.this, projects);
 				setListAdapter(mAdapter);

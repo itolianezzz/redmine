@@ -18,6 +18,7 @@ import java.util.Map;
  * Time: 10:36
  */
 public class RedmineApp extends Application{
+    public final static String HOST_ID = "host_id";
     private RedmineDBAdapter DBAdapter;
     private static final String TAG = "Redmine.Application";
 

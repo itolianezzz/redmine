@@ -21,11 +21,9 @@ import ru.spb.itolia.redmine.util.Settings;
 import java.util.List;
 
 public class HostsActivity extends SherlockListActivity {
-    //private final String PREFS_NAME = "prefs";
-    //RedmineDBAdapter DBAdapter;
     protected RedmineApp app;
     public static Context context;
-    //SharedPreferences Prefs;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +75,7 @@ public class HostsActivity extends SherlockListActivity {
 		RedmineSession item = (RedmineSession) getListAdapter().getItem(position);
 		Integer host_id = item.getHost_id();
 		Intent intent = new Intent(this, ProjectsActivity.class);
-		intent.putExtra("host_id", host_id);
+		intent.putExtra(RedmineApp.HOST_ID, host_id);
 		startActivity(intent);
 		finish();
 	}
