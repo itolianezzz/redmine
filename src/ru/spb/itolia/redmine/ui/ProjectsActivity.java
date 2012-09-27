@@ -39,18 +39,11 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
     	super.onCreate(savedInstanceState);
         app = (RedmineApp) getApplication();
         actionBar = getSupportActionBar();
-/*    	List<RedmineHost> hosts = app.getHosts();
-    	RedmineHost currentHost = app.getHostById(getIntent().getIntExtra("host_id", -1));
-    	for(RedmineHost host: hosts) {
-    		spinner.add(host);
-    	}
-        spinner.add(getString(R.string.showHosts));
-    	HostsAdapter adapter = new HostsAdapter(this, spinner);*/
         FillSpinnerTask fstask = new FillSpinnerTask();
         fstask.execute();
 
       	ProjectsDBTask task = new ProjectsDBTask();
-    	task.execute(getIntent().getIntExtra("host_id", -1));
+    	task.execute(getIntent().getIntExtra(RedmineApp.HOST_ID, -1));
     }
     
     @Override
