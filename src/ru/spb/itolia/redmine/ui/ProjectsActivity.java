@@ -18,6 +18,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import ru.spb.itolia.redmine.R;
 import ru.spb.itolia.redmine.RedmineApp;
+import ru.spb.itolia.redmine.adapters.ProjectsAdapter;
 import ru.spb.itolia.redmine.api.RedmineApiManager;
 import ru.spb.itolia.redmine.api.beans.Project;
 import ru.spb.itolia.redmine.api.beans.RedmineHost;
@@ -113,53 +114,7 @@ public class ProjectsActivity extends SherlockListActivity implements OnNavigati
 		startActivity(intent);
 	}
     
-    private class ProjectsAdapter extends ArrayAdapter<Project> {
-    	private Context context;
-        private List<Project> projects;
-        //private LayoutInflater mInflater;
 
- 
-		public ProjectsAdapter(Context context, List<Project> objects) {
-			super(context, R.layout.project_row, objects);
-			this.projects = objects;
-			this.context = context;
-		}
-
-		class ViewHolder { // TODO fix static
-			public TextView projectName;
-			public TextView projectDesc;
-			public TextView createdOn;
-			public TextView updatedOn;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View rowView = convertView;
-			if (rowView == null) {
-				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				rowView = inflater.inflate(R.layout.project_row, null);
-				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.projectName = (TextView) rowView
-						.findViewById(R.id.projectName);
-				viewHolder.projectDesc = (TextView) rowView
-						.findViewById(R.id.projectDesc);
-				viewHolder.createdOn = (TextView) rowView
-						.findViewById(R.id.projectCreatedOn);
-				viewHolder.updatedOn = (TextView) rowView
-						.findViewById(R.id.projectUpdateOn);
-				rowView.setTag(viewHolder);
-			}
-
-			ViewHolder holder = (ViewHolder) rowView.getTag();
-			Project p = projects.get(position);
-			holder.projectName.setText(p.getName());
-			holder.projectDesc.setText(p.getDescription());
-			holder.createdOn.setText(p.getCreated_on());
-			holder.updatedOn.setText(p.getUpdated_on());
-
-			return rowView;
-		}
-	}
 
     private class HostsAdapter extends ArrayAdapter<Object> {
     	private Context context;
